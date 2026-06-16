@@ -1,19 +1,9 @@
-import express from 'express';
 import mongoose from 'mongoose';
+import { createApp } from './app';
 
-const app = express();
+const app = createApp();
 const port = process.env.PORT ? Number(process.env.PORT) : 8000;
-const mongoUrl = process.env.MONGODB_URI || 'mongodb://127.0.0.1:27017/octofit-tracker';
-
-app.use(express.json());
-
-app.get('/health', (_, res) => {
-  res.json({ status: 'ok' });
-});
-
-app.get('/', (_, res) => {
-  res.send('OctoFit Tracker backend is running.');
-});
+const mongoUrl = process.env.MONGODB_URI || 'mongodb://127.0.0.1:27017/octofit_db';
 
 mongoose
   .connect(mongoUrl)
