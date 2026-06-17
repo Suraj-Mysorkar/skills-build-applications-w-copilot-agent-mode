@@ -25,50 +25,95 @@ export function createApp() {
   });
 
   app.get('/api/users', async (_, res) => {
-    const users = await UserModel.find().select('-passwordHash').lean();
-    res.json({ data: users });
+    try {
+      const users = await UserModel.find().select('-passwordHash').lean();
+      res.json({ data: users });
+    } catch (error) {
+      console.error('Error fetching users:', error);
+      res.status(500).json({ error: 'Failed to fetch users' });
+    }
   });
 
   app.post('/api/users', async (req, res) => {
-    const user = await UserModel.create(req.body);
-    const created = user.toObject();
-    delete created.passwordHash;
-    res.status(201).json({ data: created });
+    try {
+      const user = await UserModel.create(req.body);
+      const created = user.toObject();
+      delete created.passwordHash;
+      res.status(201).json({ data: created });
+    } catch (error) {
+      console.error('Error creating user:', error);
+      res.status(500).json({ error: 'Failed to create user' });
+    }
   });
 
   app.get('/api/teams', async (_, res) => {
-    const teams = await TeamModel.find().populate('memberIds', 'name email role').lean();
-    res.json({ data: teams });
+    try {
+      const teams = await TeamModel.find().populate('memberIds', 'name email role').lean();
+      res.json({ data: teams });
+    } catch (error) {
+      console.error('Error fetching teams:', error);
+      res.status(500).json({ error: 'Failed to fetch teams' });
+    }
   });
 
   app.post('/api/teams', async (req, res) => {
-    const team = await TeamModel.create(req.body);
-    res.status(201).json({ data: team });
+    try {
+      const team = await TeamModel.create(req.body);
+      res.status(201).json({ data: team });
+    } catch (error) {
+      console.error('Error creating team:', error);
+      res.status(500).json({ error: 'Failed to create team' });
+    }
   });
 
   app.get('/api/activities', async (_, res) => {
-    const activities = await ActivityModel.find().populate('userId', 'name email').lean();
-    res.json({ data: activities });
+    try {
+      const activities = await ActivityModel.find().populate('userId', 'name email').lean();
+      res.json({ data: activities });
+    } catch (error) {
+      console.error('Error fetching activities:', error);
+      res.status(500).json({ error: 'Failed to fetch activities' });
+    }
   });
 
   app.post('/api/activities', async (req, res) => {
-    const activity = await ActivityModel.create(req.body);
-    res.status(201).json({ data: activity });
+    try {
+      const activity = await ActivityModel.create(req.body);
+      res.status(201).json({ data: activity });
+    } catch (error) {
+      console.error('Error creating activity:', error);
+      res.status(500).json({ error: 'Failed to create activity' });
+    }
   });
 
   app.get('/api/leaderboard', async (_, res) => {
-    const leaderboard = await LeaderboardModel.find().sort('rank').populate('teamId', 'name').lean();
-    res.json({ data: leaderboard });
+    try {
+      const leaderboard = await LeaderboardModel.find().sort('rank').populate('teamId', 'name').lean();
+      res.json({ data: leaderboard });
+    } catch (error) {
+      console.error('Error fetching leaderboard:', error);
+      res.status(500).json({ error: 'Failed to fetch leaderboard' });
+    }
   });
 
   app.get('/api/workouts', async (_, res) => {
-    const workouts = await WorkoutModel.find().populate('coachId', 'name email').lean();
-    res.json({ data: workouts });
+    try {
+      const workouts = await WorkoutModel.find().populate('coachId', 'name email').lean();
+      res.json({ data: workouts });
+    } catch (error) {
+      console.error('Error fetching workouts:', error);
+      res.status(500).json({ error: 'Failed to fetch workouts' });
+    }
   });
 
   app.post('/api/workouts', async (req, res) => {
-    const workout = await WorkoutModel.create(req.body);
-    res.status(201).json({ data: workout });
+    try {
+      const workout = await WorkoutModel.create(req.body);
+      res.status(201).json({ data: workout });
+    } catch (error) {
+      console.error('Error creating workout:', error);
+      res.status(500).json({ error: 'Failed to create workout' });
+    }
   });
 
   return app;
