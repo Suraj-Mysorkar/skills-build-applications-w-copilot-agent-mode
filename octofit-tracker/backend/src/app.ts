@@ -9,7 +9,7 @@ export function createApp() {
   const port = process.env.PORT ? Number(process.env.PORT) : 8000;
   const codespaceName = process.env.CODESPACE_NAME;
   const apiUrl = codespaceName
-    ? `https://${codespaceName}-8000.githubpreview.dev`
+    ? `https://${codespaceName}-8000.app.github.dev`
     : `http://localhost:${port}`;
 
   app.get('/health', (_, res) => {
